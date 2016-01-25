@@ -1,0 +1,8 @@
+[package]
+name = "rss_reader"
+version = "0.1.0"
+authors = ["Kai Sickeler <k.sickeler@gmail.com>"]
+
+[dependencies]
+rss = "0.3.1"
+hyper="0.7.2"
