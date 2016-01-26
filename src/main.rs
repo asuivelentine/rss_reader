@@ -22,24 +22,27 @@ fn get_content(url: &str) -> String{
     body
 }
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 2{
-        panic!("no url als parameter found");
-    }
-    let url = args[1].clone();
-
-    let content = get_content(&url); // fetch the url and get the rss string
-
-    let rss = Rss::from_str(&content).unwrap(); //parse that string into rss data
-    let Rss(feed) = rss; // get the parsed content
+fn print_titles(feed: rss::Channel, n: usize){
     let items = feed.items; // the Title is the only thing I care about
 
-    for item in 0..5{
+    for item in 0..n{
         match items[item].title.clone(){
             Some(n) => println!("{}", n),
             None => panic!("cant find the data"),
         }
     }
+}
 
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2{
+        panic!("no URL as parameter found");
+    }
+
+    let content = get_content(&args[1]); // fetch the url and get the rss string
+
+    let rss = Rss::from_str(&content).unwrap(); //parse that string into rss data
+    let Rss(feed) = rss.clone(); // get the parsed content
+    
+    print_titles(feed, 5);
 }
