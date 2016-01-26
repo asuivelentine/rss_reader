@@ -34,9 +34,12 @@ fn print_titles(feed: rss::Channel, n: usize){
 }
 
 fn main() {
+    use std::process::exit;
+
     let args: Vec<String> = env::args().collect();
     if args.len() < 2{
-        panic!("no URL as parameter found");
+        println!("Usage: rss_reader [URL]");
+        exit(1);
     }
 
     let content = get_content(&args[1]); // fetch the url and get the rss string
