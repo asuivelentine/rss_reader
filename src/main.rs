@@ -23,13 +23,9 @@ fn get_content(url: &str) -> String{
 }
 
 fn print_titles(feed: rss::Channel, n: usize){
-    let items = feed.items; // the Title is the only thing I care about
-
-    for item in 0..n{
-        match items[item].title.clone(){
-            Some(n) => println!("{}", n),
-            None => panic!("cant find the data"),
-        }
+    for title in feed.items.into_iter().take(n).map(|item| item.title) {
+        title.map(|t| println!("{}", t))
+            .or_else(|| panic!("cant find the data"));
     }
 }
 
