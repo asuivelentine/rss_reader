@@ -22,8 +22,8 @@ fn get_content(url: &str) -> String{
     body
 }
 
-fn print_titles(feed: rss::Channel, n: usize){
-    for title in feed.items.into_iter().take(n).map(|item| item.title) {
+fn print_titles(feed: rss::Channel, start: usize,  n: usize){
+    for title in feed.items.into_iter().skip(start).take(n).map(|item| item.title) {
         title.map(|t| println!("{}", t))
             .or_else(|| panic!("cant find the data"));
     }
@@ -43,5 +43,5 @@ fn main() {
     let rss = Rss::from_str(&content).unwrap(); //parse that string into rss data
     let Rss(feed) = rss.clone(); // get the parsed content
     
-    print_titles(feed, 5);
+    print_titles(feed, 1, 5);
 }
