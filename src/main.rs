@@ -1,26 +1,14 @@
 extern crate hyper;
 extern crate rss;
 
-use std::io::Read;
+mod html_handler;
+
 use std::env;
 use std::str::FromStr;
 
-use hyper::Client;
-use hyper::header::Connection;
-
 use rss::Rss;
 
-fn get_content(url: &str) -> String{
-    let client = Client::new();
 
-    let mut res = client.get(url)
-        .header(Connection::close())
-        .send().unwrap();
-
-    let mut body = String::new();
-    res.read_to_string(&mut body).unwrap();
-    body
-}
 
 fn print_titles(feed: rss::Channel, start: usize,  n: usize) {
     for title in feed.items.into_iter().skip(start).take(n).map(|item| item.title) {
@@ -37,8 +25,8 @@ fn print_descriptions(feed: rss::Channel, start: usize, n: usize){
 }
 
 fn print_article(feed: rss::Channel, id: usize) {
-    print_titles(feed.clone(), id, id+1);
-    print_descriptions(feed.clone(), id, id+1);
+    print_titles(feed.clone(), id, 1);
+    print_descriptions(feed.clone(), id, 1);
 }
 
 fn main() {
@@ -50,7 +38,7 @@ fn main() {
         exit(1);
     }
 
-    let content = get_content(&args[1]); // fetch the url and get the rss string
+    let content = html_handler::get_content(&args[1]); // fetch the url and get the rss string
 
     let rss = Rss::from_str(&content).unwrap(); //parse that string into rss data
     let Rss(feed) = rss.clone(); // get the parsed content
