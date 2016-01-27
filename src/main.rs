@@ -1,5 +1,6 @@
 extern crate hyper;
 extern crate rss;
+extern crate htmlstream;
 
 mod html_handler;
 
@@ -19,13 +20,14 @@ fn print_titles(feed: rss::Channel, start: usize,  n: usize) {
 
 fn print_descriptions(feed: rss::Channel, start: usize, n: usize){
         for description in feed.items.into_iter().skip(start).take(n).map(|item| item.description){
-        description.map(|t| println!("{}", t))
+        description.map(|t| html_handler::remove_html_tags(t)) //println!("{}", t))
             .or_else(|| panic!("no valid data found"));
     }
 }
 
 fn print_article(feed: rss::Channel, id: usize) {
     print_titles(feed.clone(), id, 1);
+    println!("===============================================================");
     print_descriptions(feed.clone(), id, 1);
 }
 
@@ -42,5 +44,5 @@ fn main() {
 
     let rss = Rss::from_str(&content).unwrap(); //parse that string into rss data
     let Rss(feed) = rss.clone(); // get the parsed content
-    print_article(feed, 1);    
+    print_article(feed, 1);
 }

@@ -1,8 +1,12 @@
+use std::io::Read;
+
 use hyper;
 use hyper::Client;
 use hyper::header::Connection;
 
-use std::io::Read;
+use htmlstream;
+use htmlstream::HTMLTagState;
+
 
 pub fn get_content(url: &str) -> String{
     let client = Client::new();
@@ -18,5 +22,12 @@ pub fn get_content(url: &str) -> String{
 
 pub fn remove_html_tags(input: String) -> String {
     let ret = input.clone();
+
+
+    for (pos, tag) in htmlstream::tag_iter(&ret) {
+        if tag.state == HTMLTagState::Text {
+            print!("{}", tag.html);
+        }
+    }
     ret.to_string() 
 }
