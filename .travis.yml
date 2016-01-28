@@ -5,6 +5,3 @@ rust:
     - nightly
     - beta
     - stable
-script:
-    - cargo build
-
