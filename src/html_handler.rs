@@ -20,13 +20,15 @@ pub fn get_content(url: &str) -> String{
     body
 }
 
+///in the given rss content could be some html tags
+///this function will clear the input from unwanted tags
 pub fn remove_html_tags(input: String) -> String {
-    let ret = input.clone();
+    let html = input.clone();
+    let mut ret = String::new();
 
-
-    for (pos, tag) in htmlstream::tag_iter(&ret) {
-        if tag.state == HTMLTagState::Text {
-            print!("{}", tag.html);
+    for (pos, tag) in htmlstream::tag_iter(&html) {
+        if tag.state == HTMLTagState::Text { //show only the text, not the html tags
+            ret.push_str(&tag.html); // add the word(s) to the return value...
         }
     }
     ret.to_string() 

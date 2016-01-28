@@ -1,3 +1,11 @@
+//! small terminal rss reader
+
+#![deny(missing_docs,
+         unsafe_code,
+         non_camel_case_types,
+         non_snake_case,
+         unused_import_braces)]
+
 extern crate hyper;
 extern crate rss;
 extern crate htmlstream;
@@ -8,7 +16,6 @@ use std::env;
 use std::str::FromStr;
 
 use rss::Rss;
-
 
 
 fn print_titles(feed: rss::Channel, start: usize,  n: usize) {
