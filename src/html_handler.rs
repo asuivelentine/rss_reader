@@ -8,7 +8,7 @@ use htmlstream;
 use htmlstream::HTMLTagState;
 
 
-pub fn get_content(url: &str) -> String{
+pub fn get_rss_feed(url: &str) -> String{
     let client = Client::new();
 
     let mut res = client.get(url)
@@ -25,11 +25,10 @@ pub fn get_content(url: &str) -> String{
 pub fn remove_html_tags(input: String) -> String {
     let html = input.clone();
     let mut ret = String::new();
-
-    for (pos, tag) in htmlstream::tag_iter(&html) {
-        if tag.state == HTMLTagState::Text { //show only the text, not the html tags
-            ret.push_str(&tag.html); // add the word(s) to the return value...
-        }
+    
+    for (pos, htmltag) in htmlstream::tag_iter(&html)
+             .filter(|&(ref pos, ref tag)| tag.state == HTMLTagState::Text) {
+        ret.push_str(&htmltag.html);
     }
     ret.to_string() 
 }

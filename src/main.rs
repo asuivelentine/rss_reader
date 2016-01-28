@@ -27,11 +27,12 @@ fn print_titles(feed: rss::Channel, start: usize,  n: usize) {
 
 fn print_descriptions(feed: rss::Channel, start: usize, n: usize){
         for description in feed.items.into_iter().skip(start).take(n).map(|item| item.description){
-        description.map(|t| html_handler::remove_html_tags(t)) //println!("{}", t))
+        description.map(|t| println!("{}" ,html_handler::remove_html_tags(t))) 
             .or_else(|| panic!("no valid data found"));
     }
 }
 
+//an article = prints the headline and the description
 fn print_article(feed: rss::Channel, id: usize) {
     print_titles(feed.clone(), id, 1);
     println!("===============================================================");
@@ -47,7 +48,7 @@ fn main() {
         exit(1);
     }
 
-    let content = html_handler::get_content(&args[1]); // fetch the url and get the rss string
+    let content = html_handler::get_rss_feed(&args[1]); // fetch the url and get the rss string
 
     let rss = Rss::from_str(&content).unwrap(); //parse that string into rss data
     let Rss(feed) = rss.clone(); // get the parsed content
