@@ -20,7 +20,7 @@ pub fn get_rss_feed(url: &str) -> String{
     body
 }
 
-///in the given rss content could be some html tags
+///input: String -> the given rss content could be some html tags
 ///this function will clear the input from unwanted tags
 pub fn remove_html_tags(input: String) -> String {
     let html = input.clone();
@@ -28,7 +28,8 @@ pub fn remove_html_tags(input: String) -> String {
     
     for (pos, htmltag) in htmlstream::tag_iter(&html)
              .filter(|&(ref pos, ref tag)| tag.state == HTMLTagState::Text) {
-        ret.push_str(&htmltag.html);
+        println!("{}", &htmltag.html);
+        //ret.push_str(&htmltag.html);
     }
     ret.to_string() 
 }

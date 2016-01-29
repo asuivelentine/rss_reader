@@ -7,3 +7,4 @@ authors = ["Kai Sickeler <k.sickeler@gmail.com>"]
 rss = "0.3.1"
 hyper="0.7.2"
 htmlstream = "0.1.2"
+clap = { version = "1.5.3", features = ["yaml"] }
