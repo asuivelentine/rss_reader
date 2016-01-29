@@ -27,7 +27,6 @@ args:
         help: Specify the number of items you want to see
         short: n
         long: num
-        takes_value: true
         requires:
             - url
     - enum:

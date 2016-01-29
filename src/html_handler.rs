@@ -28,8 +28,7 @@ pub fn remove_html_tags(input: String) -> String {
     
     for (pos, htmltag) in htmlstream::tag_iter(&html)
              .filter(|&(ref pos, ref tag)| tag.state == HTMLTagState::Text) {
-        println!("{}", &htmltag.html);
-        //ret.push_str(&htmltag.html);
+        ret.push_str(&htmltag.html);
     }
     ret.to_string() 
 }
