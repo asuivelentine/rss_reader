@@ -27,12 +27,6 @@ args:
         help: Specify the number of items you want to see
         short: n
         long: num
-        requires:
-            - url
-    - enum:
-        help: Prints all feed titles with their current ID
-        short: e
-        long: enum
         takes_value: true
         requires:
             - url

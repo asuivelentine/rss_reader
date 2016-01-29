@@ -28,10 +28,9 @@ fn main() {
 
     //fetch all arguments
     let url = param.value_of("url").unwrap();
-    let title_only = value_t!(param.value_of("title_only"), bool).unwrap_or(false);
-    let list =  value_t!(param.value_of("title_only"), bool).unwrap_or(false);
-    let num = value_t!(param.value_of("num"), isize).unwrap_or(-1);
-    let start = value_t!(param.value_of("num"), isize).unwrap_or(-1);
+    let title_only = param.is_present("title-only");
+    let num = value_t!(param.value_of("num"), usize).unwrap_or(1);
+    let start = value_t!(param.value_of("start"), usize).unwrap_or(0);
 
     // fetch the url and get the rss string
     let content = html_handler::get_rss_feed(&url); 
@@ -39,7 +38,15 @@ fn main() {
     //parse that string into rss data
     let rss = Rss::from_str(&content).unwrap_or_else(|err| exit("URL's content could not be fetched") ); 
     let Rss(feed) = rss.clone(); // get the parsed content
-    decode_rss::print_article(feed, 1);
+
+    if title_only == true {
+        decode_rss::print_titles( feed.clone() , start, num);
+        return
+    }
+
+    for pos in start..start+num{
+        decode_rss::print_article(feed.clone(), pos);
+    }
 }
 
 fn exit(err: &str) -> ! {
