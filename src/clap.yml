@@ -1,0 +1,46 @@
+name: rss_reader
+version: 0.1.0
+about: Little Command line rss reader written in rust
+author: asui
+
+settings:
+    - ArgRequiredElseHelp
+
+args:
+    - help:
+        help: Prints this help page
+        short: h
+        long: help
+    - url:
+        help: Fetches a rss feed from an URL
+        short: u
+        long: url
+        required: true
+        takes_value: true
+    - title-only:
+        help: prints only the titles of the feed
+        short: t
+        long: title-only
+        requires:
+            - url
+    - num:
+        help: Specify the number of items you want to see
+        short: n
+        long: num
+        takes_value: true
+        requires:
+            - url
+    - enum:
+        help: Prints all feed titles with their current ID
+        short: e
+        long: enum
+        takes_value: true
+        requires:
+            - url
+    - start:
+        help: Start printing at the given number
+        short: s
+        long: start
+        takes_value: true
+        requires:
+            - url
