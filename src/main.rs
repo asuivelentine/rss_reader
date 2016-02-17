@@ -1,4 +1,5 @@
 //! small terminal rss reader
+//! written in rust
 
 #![deny(missing_docs,
          unsafe_code,
